@@ -1,5 +1,5 @@
-import { getItemsCollection, findItemByUrl, createItem, normalizeUrl } from '../db/firestore.js';
-import { categorize } from '../categorize.js';
+import { findItemByUrl, createItem } from '../db/firestore.js';
+import { categorizeMulti } from '../categorize.js';
 
 const GUARDIAN_BASE = 'https://content.guardianapis.com';
 
@@ -36,7 +36,7 @@ export async function ingestGuardian() {
 
       const body = article.fields?.body?.replace(/<[^>]+>/g, ' ').trim() || '';
       const snippet = article.fields?.trailText || article.webTitle;
-      const category = categorize(article.webTitle, snippet);
+      const { category, categories } = categorizeMulti(article.webTitle, snippet);
 
       await createItem({
         source: 'guardian',
@@ -45,6 +45,7 @@ export async function ingestGuardian() {
         snippet: snippet.substring(0, 500),
         fullText: body ? body.substring(0, 100000) : null,
         category,
+        categories,
         section,
       });
       added++;

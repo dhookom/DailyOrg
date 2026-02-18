@@ -10,6 +10,7 @@ Personal daily reading organizer: aggregate Gmail, Guardian, NYTimes, and The At
 | `frontend/` | Next.js app: feed by category, Summarize button, (later) Explore similar |
 | `extension/` | Browser extension to save Athletic articles (URL + title + body) to backend |
 | `docs/` | [Daily-Reading-Organizer-Plan.md](docs/Daily-Reading-Organizer-Plan.md) and other docs |
+| `backend/src/services/ai.js` | Centralized AI helpers (Gemini / Vertex) – categorization & summarization |
 
 ## Requirements
 
@@ -69,6 +70,11 @@ Set env vars and secrets in the Cloud Run service. Use Cloud Scheduler to call `
 ## Docs
 
 - [Daily Reading Organizer Plan](docs/Daily-Reading-Organizer-Plan.md) – architecture, phasing, GCP free tier, Firestore vector search
+
+## Future improvements
+
+- **TypeScript** for backend, frontend, and extension to make article/embedding types explicit.
+- **IaC (Terraform/Pulumi)** for Cloud Run, Firestore (including vector index), and Cloud Scheduler/Tasks.
 
 ## License
 

@@ -100,7 +100,10 @@ export default function Home() {
               {item.title}
             </a>
             <div style={{ fontSize: '0.875rem', color: '#888', marginTop: 4 }}>
-              {item.source} · {item.category || 'General'}
+              {item.source} ·{' '}
+              {Array.isArray(item.categories) && item.categories.length
+                ? item.categories.join(', ')
+                : item.category || 'General'}
             </div>
             {item.snippet && (
               <p style={{ fontSize: '0.875rem', color: '#aaa', marginTop: 6 }}>{item.snippet}</p>
