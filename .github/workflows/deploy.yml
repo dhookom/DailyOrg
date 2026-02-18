@@ -1,0 +1,42 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  PROJECT_ID: daily-org-487722
+  REGION: us-central1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      # Deploy Backend
+      - name: Deploy Backend
+        run: |
+          gcloud run deploy dailyorg-backend \
+            --source ./backend \
+            --region ${{ env.REGION }} \
+            --allow-unauthenticated \
+            --set-secrets="GEMINI_API_KEY=GEMINI_API_KEY:latest,GUARDIAN_API_KEY=GUARDIAN_API_KEY:latest"
+
+      # Deploy Frontend
+      - name: Deploy Frontend
+        run: |
+          gcloud run deploy dailyorg-frontend \
+            --source ./frontend \
+            --region ${{ env.REGION }} \
+            --allow-unauthenticated \
+            --set-env-vars NEXT_PUBLIC_API_URL=https://dailyorg-backend-485653986138.us-central1.run.app
