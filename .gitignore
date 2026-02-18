@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Env and secrets (never commit)
+.env
+.env.local
+.env.*.local
+*.pem
+
+# Build and runtime
+.next/
+out/
+dist/
+*.log
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
